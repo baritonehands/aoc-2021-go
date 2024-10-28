@@ -138,7 +138,7 @@ func main() {
 			total, err := board.winningTotal(moves, moveIdx)
 			if err == nil {
 				println(total)
-				fmt.Printf("%v\n", board)
+				fmt.Printf("%v\n\n", board)
 				found = true
 				break
 			}
@@ -156,16 +156,14 @@ func main() {
 			if _, ok := winnerSet[boardIdx]; !ok {
 				total, err := board.winningTotal(moves, moveIdx)
 				if err == nil {
-					fmt.Printf("Adding board %d = %d\n%v\n\n", boardIdx, total, board)
 					winnerSet[boardIdx] = true
 					lastWinner = &board
 					lastTotal = total
-					break
 				}
 			}
 		}
 	}
 
-	fmt.Printf("%v\n", lastWinner)
+	fmt.Printf("%v\n\n", lastWinner)
 	println(lastTotal)
 }
