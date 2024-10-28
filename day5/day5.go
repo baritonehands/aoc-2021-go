@@ -52,7 +52,31 @@ func (v *Vector) points() []Point {
 		}
 		return ret
 	} else {
-		return []Point{}
+		var xDir, yDir int
+		var startX, endX int
+		if v.from.x > v.to.x {
+			xDir = -1
+			startX = v.to.x
+			endX = v.from.x
+		} else {
+			xDir = 1
+			startX = v.from.x
+			endX = v.to.x
+		}
+		if v.from.y > v.to.y {
+			yDir = -1
+		} else {
+			yDir = 1
+		}
+		ret := make([]Point, endX-startX+1)
+		i := 0
+		for delta := 0; delta < endX-startX+1; delta++ {
+			dx := v.from.x + (delta * xDir)
+			dy := v.from.y + (delta * yDir)
+			ret[i] = Point{dx, dy}
+			i++
+		}
+		return ret
 	}
 }
 
