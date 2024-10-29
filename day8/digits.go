@@ -2,41 +2,45 @@ package main
 
 import (
 	"maps"
-	"strings"
+	"slices"
 )
 
 type Digit map[rune]bool
 
-func (d Digit) String() string {
-	b := strings.Builder{}
-	for r := range maps.Keys(d) {
-		b.WriteRune(r)
+func parseDigit(s string) Digit {
+	ret := make(Digit)
+	for _, c := range s {
+		ret[c] = true
 	}
-	return b.String()
+	return ret
 }
 
-func (d Digit) isOne() bool {
+func (d Digit) String() string {
+	return string(slices.Sorted(maps.Keys(d)))
+}
+
+func IsOne(d Digit) bool {
 	return len(d) == 2
 }
 
-func (d Digit) isFour() bool {
+func IsFour(d Digit) bool {
 	return len(d) == 4
 }
 
-func (d Digit) isSeven() bool {
+func IsSeven(d Digit) bool {
 	return len(d) == 3
 }
 
-func (d Digit) isEight() bool {
+func IsEight(d Digit) bool {
 	return len(d) == 7
 }
 
-func (d Digit) isUnique() bool {
-	return d.isOne() || d.isFour() || d.isSeven() || d.isEight()
+func IsUnique(d Digit) bool {
+	return IsOne(d) || IsFour(d) || IsSeven(d) || IsEight(d)
 }
 
 func (d Digit) setDifference(other Digit) Digit {
-	var ret Digit
+	var ret = Digit{}
 	for c, v := range d {
 		_, present := other[c]
 		if v && !present {
