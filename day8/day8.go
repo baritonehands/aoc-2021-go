@@ -27,9 +27,9 @@ func digitString(digits []Digit) string {
 }
 
 func RuneSeq(digits []Digit) iter.Seq[rune] {
-	return it.Fold(slices.Values(digits), func(seq iter.Seq[rune], d Digit) iter.Seq[rune] {
-		return it.Chain(seq, maps.Keys(d))
-	}, it.Exhausted[rune]())
+	return utils.FlatMap(slices.Values(digits), func(d Digit) iter.Seq[rune] {
+		return maps.Keys(d)
+	})
 }
 
 type InputLine struct {
@@ -98,17 +98,17 @@ func signalKey(s Signal) map[string]int {
 	f, _, _ := it.Find2(maps.All(counts), func(r rune, cnt int) bool {
 		return cnt == 9
 	})
-	gExclude := Digit{a: true, b: true, c: true, e: true, f: true}
+	gExclude := makeDigit(a, b, c, e, f)
 	g := rune(eight.setDifference(gExclude).setDifference(four).String()[0])
 	d, _ := it.Find(maps.Keys(counts), func(r rune) bool {
 		return r != a && r != b && r != c && r != e && r != f && r != g
 	})
 
-	zero := parseDigit(string([]rune{a, b, c, e, f, g}))
-	two := parseDigit(string([]rune{a, c, d, e, g}))
-	three := parseDigit(string([]rune{a, c, d, f, g}))
-	five := parseDigit(string([]rune{a, b, d, f, g}))
-	nine := parseDigit(string([]rune{a, b, c, d, f, g}))
+	zero := makeDigit(a, b, c, e, f, g)
+	two := makeDigit(a, c, d, e, g)
+	three := makeDigit(a, c, d, f, g)
+	five := makeDigit(a, b, d, f, g)
+	nine := makeDigit(a, b, c, d, f, g)
 
 	//fmt.Printf("%v\n", []any{zero, one, two, three, four, five, six, seven, eight, nine})
 	//fmt.Printf("%v\n", []any{a, b, c, d, e, f, g})

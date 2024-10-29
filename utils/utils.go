@@ -18,6 +18,14 @@ func Frequencies[I iter.Seq[T], T comparable](iter I) map[T]int {
 	}, make(map[T]int))
 }
 
-func Concat2[T any](lhs iter.Seq[T], rhs iter.Seq[T]) iter.Seq[T] {
-	return it.Chain(lhs, rhs)
+func FlatMap[V, W any, S iter.Seq[W]](delegate func(func(V) bool), f func(V) S) iter.Seq[W] {
+	return func(yield func(W) bool) {
+		for innerValue := range delegate {
+			for value := range f(innerValue) {
+				if !yield(value) {
+					return
+				}
+			}
+		}
+	}
 }

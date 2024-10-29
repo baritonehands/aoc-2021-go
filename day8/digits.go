@@ -15,6 +15,10 @@ func parseDigit(s string) Digit {
 	return ret
 }
 
+func makeDigit(runes ...rune) Digit {
+	return parseDigit(string(runes))
+}
+
 func (d Digit) String() string {
 	return string(slices.Sorted(maps.Keys(d)))
 }
