@@ -3,6 +3,7 @@ package utils
 import (
 	"github.com/BooleanCat/go-functional/v2/it"
 	"iter"
+	"slices"
 	"strings"
 )
 
@@ -29,11 +30,11 @@ func SetDifference[K comparable](lhs map[K]bool, rhs map[K]bool) map[K]bool {
 	return ret
 }
 
-func Frequencies[I iter.Seq[T], T comparable](iter I) map[T]int {
-	return it.Fold(iter, func(m map[T]int, t T) map[T]int {
+func Frequencies[I iter.Seq[T], T comparable](iter I) map[T]int64 {
+	return it.Fold(iter, func(m map[T]int64, t T) map[T]int64 {
 		m[t]++
 		return m
-	}, make(map[T]int))
+	}, make(map[T]int64))
 }
 
 func FlatMap[V, W any, S iter.Seq[W]](delegate func(func(V) bool), f func(V) S) iter.Seq[W] {
@@ -58,4 +59,15 @@ func FlatMap2[V, W, X, Y any, S iter.Seq2[X, Y]](delegate func(func(V, W) bool),
 			}
 		}
 	}
+}
+
+func Partition[T any](slice []T, n int, step int) iter.Seq[iter.Seq[T]] {
+	ret := it.Exhausted[iter.Seq[T]]()
+	for i := 0; i < len(slice); i += step {
+		inner := slice[i:min(i+n, len(slice))]
+		if len(inner) == n {
+			ret = it.Chain(ret, it.Once(slices.Values(inner)))
+		}
+	}
+	return ret
 }
