@@ -27,14 +27,6 @@ func parseInput() [][]int {
 	return ret
 }
 
-type Pair struct {
-	x, y int
-}
-
-func (p Pair) String() string {
-	return fmt.Sprintf("(%d,%d)", p.x, p.y)
-}
-
 func neighbors(p Pair) iter.Seq[Pair] {
 	ret := it.Exhausted[Pair]()
 	for ri := p.y - 1; ri <= p.y+1; ri++ {

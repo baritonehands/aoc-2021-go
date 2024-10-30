@@ -11,6 +11,13 @@ func Split2(s string) (string, string) {
 	return arr[0], arr[1]
 }
 
+func SeqSet[I iter.Seq[T], T comparable](iter I) map[T]bool {
+	return it.Fold(iter, func(m map[T]bool, t T) map[T]bool {
+		m[t] = true
+		return m
+	}, make(map[T]bool))
+}
+
 func SetDifference[K comparable](lhs map[K]bool, rhs map[K]bool) map[K]bool {
 	var ret = make(map[K]bool)
 	for c, v := range lhs {
@@ -48,28 +55,6 @@ func FlatMap2[V, W, X, Y any, S iter.Seq2[X, Y]](delegate func(func(V, W) bool),
 				if !yield(x, y) {
 					return
 				}
-			}
-		}
-	}
-}
-
-func SeqAll[V any](seq iter.Seq[V]) iter.Seq2[int, V] {
-	return func(yield func(int, V) bool) {
-		idx := 0
-		for v := range seq {
-			if !yield(idx, v) {
-				return
-			}
-			idx++
-		}
-	}
-}
-
-func SeqValues[K, V any](seq iter.Seq2[K, V]) iter.Seq[V] {
-	return func(yield func(V) bool) {
-		for _, v := range seq {
-			if !yield(v) {
-				return
 			}
 		}
 	}
