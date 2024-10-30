@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/baritonehands/aoc-2021-go/utils"
 	"maps"
 	"slices"
 )
@@ -44,12 +45,5 @@ func IsUnique(d Digit) bool {
 }
 
 func (d Digit) setDifference(other Digit) Digit {
-	var ret = Digit{}
-	for c, v := range d {
-		_, present := other[c]
-		if v && !present {
-			ret[c] = true
-		}
-	}
-	return ret
+	return utils.SetDifference(d, other)
 }
