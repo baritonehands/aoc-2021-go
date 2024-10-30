@@ -120,10 +120,7 @@ func flash(state [][]int, count *int) bool {
 			break
 		}
 
-		updates := it.Fold(utils.FlatMap(maps.Keys(toFlash), neighbors), func(ret map[Pair]int, p Pair) map[Pair]int {
-			ret[p]++
-			return ret
-		}, make(map[Pair]int))
+		updates := utils.Frequencies(utils.FlatMap(maps.Keys(toFlash), neighbors))
 		//fmt.Printf("updates: %v\n", updates)
 		incState(state, updates)
 		//fmt.Printf("nextState: \n%v\n", stateString(state))
