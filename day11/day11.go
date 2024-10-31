@@ -49,13 +49,13 @@ func updateState(state [][]int, updateFn func(x, y int, cell *int)) {
 	}
 }
 
-func incState(state [][]int, pairs map[Pair]int) {
+func incState(state [][]int, pairs map[Pair]int64) {
 	updateState(state, func(x, y int, cell *int) {
 		var inc = pairs[Pair{x, y}]
 		if pairs == nil {
 			inc = 1
 		}
-		*cell += inc
+		*cell += int(inc)
 	})
 }
 
