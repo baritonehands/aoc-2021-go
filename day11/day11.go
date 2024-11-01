@@ -77,9 +77,7 @@ func filterState(state [][]int, filterFn func(cell int) bool) map[Pair]bool {
 		})
 	})
 
-	ret := make(map[Pair]bool)
-	maps.Insert(ret, pairs)
-	return ret
+	return maps.Collect(pairs)
 }
 
 func flashing(state [][]int) map[Pair]bool {

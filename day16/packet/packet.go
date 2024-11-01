@@ -2,6 +2,7 @@ package packet
 
 import (
 	"github.com/BooleanCat/go-functional/v2/it"
+	"github.com/BooleanCat/go-functional/v2/it/op"
 	"slices"
 	"strconv"
 	"strings"
@@ -79,9 +80,9 @@ func (o Operator) Value() int {
 
 	switch o.header.pType {
 	case 0: // +
-		return it.Fold(children, func(l int, r int) int { return l + r }, 0)
+		return it.Fold(children, op.Add, 0)
 	case 1: // *
-		return it.Fold(children, func(l int, r int) int { return l * r }, 1)
+		return it.Fold(children, op.Add, 1)
 	case 2: // min
 		v, _ := it.Min(children)
 		return v

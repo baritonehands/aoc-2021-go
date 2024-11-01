@@ -52,8 +52,7 @@ type Part2 struct {
 }
 
 func step2(pairs map[string]string, state *Part2) {
-	initialPairFreqs := make(map[string]int64)
-	maps.Insert(initialPairFreqs, maps.All(state.pairFreqs))
+	initialPairFreqs := maps.Clone(state.pairFreqs)
 
 	for pair, freq := range initialPairFreqs {
 		react2(pairs, state, pair, freq)
@@ -105,8 +104,7 @@ func main() {
 
 	fmt.Printf("%v\n%v\n", start, pairs)
 
-	part2Pairs := make(map[string]string)
-	maps.Insert(part2Pairs, maps.All(pairs))
+	part2Pairs := maps.Clone(pairs)
 	part1(start, pairs)
 	part2(start, part2Pairs)
 }

@@ -3,6 +3,7 @@ package utils
 import (
 	"github.com/BooleanCat/go-functional/v2/it"
 	"iter"
+	"maps"
 	"slices"
 	"strings"
 )
@@ -13,10 +14,7 @@ func Split2(s string) (string, string) {
 }
 
 func SeqSet[I iter.Seq[T], T comparable](iter I) map[T]bool {
-	return it.Fold(iter, func(m map[T]bool, t T) map[T]bool {
-		m[t] = true
-		return m
-	}, make(map[T]bool))
+	return maps.Collect(it.Zip(iter, it.Repeat(true)))
 }
 
 func SetDifference[K comparable](lhs map[K]bool, rhs map[K]bool) map[K]bool {
